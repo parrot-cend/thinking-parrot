@@ -1,0 +1,11 @@
+{
+  "queryForm": {
+    "searchContent": {
+      "label": "搜索内容",
+      "type": "el-input",
+      "options": {
+        "type": "text"
+      }
+    }
+  }
+}
