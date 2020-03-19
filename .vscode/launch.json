@@ -8,7 +8,7 @@
       "name": "Debug Compiler",
       "type": "node",
       "request": "launch",
-      "args": ["src/index.ts"],
+      "args": ["src/test/index.ts"],
       "runtimeArgs": ["--nolazy", "-r", "ts-node/register"],
       "sourceMaps": true,
       "cwd": "${workspaceRoot}",
