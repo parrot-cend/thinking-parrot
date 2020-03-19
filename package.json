@@ -1,0 +1,38 @@
+{
+  "name": "parrot-element-compiler",
+  "version": "1.0.0",
+  "description": "Tools for compile json structure to .vue file",
+  "main": "src/index.ts",
+  "dependencies": {},
+  "devDependencies": {
+    "@types/node": "^13.9.2",
+    "@typescript-eslint/eslint-plugin": "^2.24.0",
+    "@typescript-eslint/parser": "^2.24.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "prettier": "^1.19.1",
+    "ts-node": "^8.7.0",
+    "typescript": "^3.8.3"
+  },
+  "scripts": {
+    "dev": "ts-node src/index.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/parrotdance/parrot-element-compiler.git"
+  },
+  "keywords": [
+    "parrot",
+    "compiler",
+    "element-ui",
+    "vue"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/parrotdance/parrot-element-compiler/issues"
+  },
+  "homepage": "https://github.com/parrotdance/parrot-element-compiler#readme"
+}

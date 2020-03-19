@@ -1,23 +1,6 @@
-const ElementContext = require('./ElementContext')
+import ElementContext from './ElementContext'
 
-const RootType = {
-  Template: 'template',
-  Script: 'script'
-}
-
-const FormItemType = {
-  input: 'input'
-}
-
-function makeFormItemContext(type, options) {
-  if (type in FormItemType) {
-    return new ElementContext(type, options)
-  } else {
-    throw new Error('unknown FormItemType')
-  }
-}
-
-function templateCompiler(options) {
+function templateCompiler(options: any): string {
   const queryForm = options.queryForm
   const template = new ElementContext('template')
   const formContext = new ElementContext('el-form')
@@ -31,11 +14,11 @@ function templateCompiler(options) {
     return elFormItem.insert(itemContent).toString()
   })
   return template
-          .insert(formContext)
-          .insert(formItems.join('\n'))
-          .toString()
+    .insert(formContext)
+    .insert(formItems.join('\n'))
+    .toString()
 }
 
-module.exports = (options) => {
+export const compile = (options: any): string => {
   return templateCompiler(options)
 }
