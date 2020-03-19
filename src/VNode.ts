@@ -1,6 +1,6 @@
 import { Dictionary } from '@/utils/types'
 
-export default class ElementContext {
+class VNode {
   private result: string
   constructor(tag: string, options: Dictionary<string> = {}) {
     const properties = Object.keys(options)
@@ -12,17 +12,19 @@ export default class ElementContext {
   public toString(): string {
     return this.result.replace(/\{slot\}/g, '')
   }
-  public insert(context: ElementContext | string): ElementContext {
+  public insert(context: VNode | string): VNode {
     // TODO: 计算缩进层级, 优化代码美观度
-    if (context instanceof ElementContext) {
+    if (context instanceof VNode) {
       this.result = this.result.replace('{slot}', `\n${context.result}\n`)
     } else if (typeof context === 'string') {
       this.result = this.result.replace('{slot}', `\n${context}\n`)
     } else {
-      throw new Error('Only can insert string or ElementContext instance')
+      throw new Error('Only can insert string or VNode instance')
     }
     return this
   }
 }
 
-module.exports = ElementContext
+export function createElement(tag: string, options?: Dictionary<string>): VNode {
+  return new VNode(tag, options)
+}

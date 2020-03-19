@@ -2,7 +2,7 @@
 
 import fs from 'fs'
 import path from 'path'
-import { compile } from './compiler'
+import compile from './compiler'
 
 const source = JSON.parse(fs.readFileSync('source.json').toString())
 
