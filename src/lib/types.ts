@@ -2,14 +2,8 @@ export interface Dictionary<T = any> {
   [index: string]: T
 }
 
-export enum VNodeType {
-  Element = 'element',
-  Text = 'text',
-  Unknown = 'unknown'
-}
-
 export interface FormItemSchema {
-  model?: string
+  'v-model'?: string
   label?: string
   tag: string
   prop?: Dictionary<string>

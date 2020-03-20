@@ -1,24 +1,21 @@
-import { ButtonSchema, FormItemSchema, OptionsSchema, VNodeType } from './types'
+import { ButtonSchema, FormItemSchema, OptionsSchema } from './types'
 import { createElement, VNode } from './VNode'
 
 function formItemParser(formItem: FormItemSchema): VNode {
   const prop = formItem.prop || {}
-  if (formItem.model) {
-    prop['v-model'] = formItem.model
-  }
-  return createElement(formItem.tag, VNodeType.Element, prop)
+  return createElement(formItem.tag, { prop })
 }
 function buttonParser(button: ButtonSchema): VNode {
   const prop = {
     size: button.size,
     type: button.type
   }
-  return createElement('el-button', VNodeType.Element, prop, button.text)
+  return createElement('el-button', { prop })
 }
 
 export default function parser(source: string): string {
-  const root = createElement('template', VNodeType.Element)
-  const form = createElement('el-form', VNodeType.Element)
+  const root = createElement('template')
+  const form = createElement('el-form')
   root.insertChild(form)
   let sourceObj: OptionsSchema
   try {
