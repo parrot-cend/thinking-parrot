@@ -1,3 +1,4 @@
+import fs from 'fs'
 import parser from '../lib/parser'
 
 it('generate correct template string', () => {
@@ -23,5 +24,6 @@ it('generate correct template string', () => {
     }
   }
   const output = parser(JSON.stringify(input))
+  fs.writeFileSync('output.vue', output)
   expect(output).toMatchSnapshot()
 })

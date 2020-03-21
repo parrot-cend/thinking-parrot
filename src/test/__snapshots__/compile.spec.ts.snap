@@ -6,6 +6,6 @@ exports[`generate correct template string 1`] = `
     <el-input type=\\"text\\"></el-input>
     <el-button size=\\"small\\" type=\\"primary\\"></el-button>
   </el-form>
-</template>;
+</template>
 "
 `;
