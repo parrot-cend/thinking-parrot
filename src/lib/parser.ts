@@ -25,9 +25,11 @@ export default function parser(source: string): string {
   }
   if (sourceObj) {
     Object.keys(sourceObj).map(key => {
+      const formItem = createElement('el-form-item')
       const formItemNodes = sourceObj[key].formItem.map(item => formItemParser(item))
+      formItem.insertChild(formItemNodes)
       const buttonNodes = sourceObj[key].buttons.map(button => buttonParser(button))
-      form.insertChild(formItemNodes).insertChild(buttonNodes)
+      form.insertChild(formItem).insertChild(buttonNodes)
     })
   }
   return root.toString()

@@ -5,10 +5,10 @@ import path from 'path'
 export async function logger(ctx: Context, next: Next): Promise<void> {
   const logDirPath = path.resolve(__dirname, 'log')
   const logFilePath = path.resolve(__dirname, 'log', 'log.txt')
-  const content = `${ctx.method.toUpperCase()} ${ctx.path} ${ctx.status}`
+  const content = `${ctx.method.toUpperCase()} ${ctx.path} ${ctx.status}\n`
   if (!fs.existsSync(logDirPath)) {
     fs.mkdirSync(logDirPath)
   }
-  fs.writeFileSync(logFilePath, content)
+  fs.appendFileSync(logFilePath, content)
   await next()
 }
