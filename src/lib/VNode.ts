@@ -1,3 +1,4 @@
+import { formatByPrettier } from './formatter'
 import { Dictionary } from './types'
 
 interface VNodeOptions {
@@ -33,8 +34,13 @@ export class VNode {
       }
     }, '')
   }
-  public toString(): string {
-    return this.makeTagStr(this.makePropStr(), this.makeChildrenStr())
+  public toString(inline?: boolean): string {
+    const result = this.makeTagStr(this.makePropStr(), this.makeChildrenStr())
+    if (inline) {
+      return result
+    } else {
+      return formatByPrettier(result)
+    }
   }
   public insertChild(child: VNode | VNode[] | string, pos?: number): VNode {
     if (pos) {
