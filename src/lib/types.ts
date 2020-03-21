@@ -3,9 +3,9 @@ export interface Dictionary<T = any> {
 }
 
 export interface FormItemSchema {
+  tag: string
   'v-model'?: string
   label?: string
-  tag: string
   prop?: Dictionary<string>
 }
 

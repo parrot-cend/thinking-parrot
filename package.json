@@ -3,9 +3,19 @@
   "version": "1.0.0",
   "description": "Tools for compile json structure to .vue file",
   "main": "src/index.ts",
-  "dependencies": {},
+  "scripts": {
+    "server": "ts-node -r tsconfig-paths/register src/server/index.ts",
+    "test:lib": "jest"
+  },
+  "dependencies": {
+    "koa": "^2.11.0",
+    "koa-bodyparser": "^4.2.1",
+    "prettier": "^1.19.1"
+  },
   "devDependencies": {
     "@types/jest": "^25.1.4",
+    "@types/koa": "^2.11.2",
+    "@types/koa-bodyparser": "^4.3.0",
     "@types/node": "^13.9.2",
     "@types/prettier": "^1.19.0",
     "@typescript-eslint/eslint-plugin": "^2.24.0",
@@ -14,14 +24,10 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "jest": "^25.1.0",
-    "prettier": "^1.19.1",
     "ts-jest": "^25.2.1",
     "ts-node": "^8.7.0",
+    "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.3"
-  },
-  "scripts": {
-    "dev": "ts-node src/index.ts",
-    "test": "jest"
   },
   "repository": {
     "type": "git",
