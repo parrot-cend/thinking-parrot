@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Parser test generate correct template string 1`] = `
+"<template>
+  <el-form inline label-Width=\\"100px\\">
+    <el-form-item required label=\\"100px\\">
+      <el-input type=\\"text\\" clearable />
+    </el-form-item>
+  </el-form>
+  <el-form inline label-Width=\\"100px\\" />
+</template>
+"
+`;

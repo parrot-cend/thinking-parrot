@@ -1,32 +1,55 @@
 import { formatByPrettier } from './formatter'
-import { Dictionary } from './types'
+import { Dictionary, Node } from './types'
 
-interface VNodeOptions {
-  prop?: Dictionary<string>
+export interface VNodeOptions {
+  props?: Dictionary<Node.Prop>
   children?: Array<VNode | string>
 }
 
-export class VNode {
+export class VNode implements Node.Base {
   private tagName: string = ''
-  private prop: Dictionary<string>
-  private children: Array<VNode | string>
+  private props: Partial<Dictionary<Node.Prop>>
+  private children: Array<Node.Impl | string> = []
 
-  constructor(tag: string, options?: VNodeOptions) {
+  constructor(tag: string, props?: Dictionary<Node.Prop>) {
     this.tagName = tag
-    this.prop = options?.prop || {}
-    this.children = options?.children || []
+    this.props = props || {}
+    return this
   }
   private makeTagStr(prop?: string, children?: string): string {
-    return `<${this.tagName}${prop}>${children}</${this.tagName}>`
+    return children ? `<${this.tagName}${prop}>${children}</${this.tagName}>` : `<${this.tagName}${prop} />`
   }
   private makePropStr(): string {
-    const result = Object.keys(this.prop)
-      .map(key => `${key}="${this.prop[key]}"`)
-      .join(' ')
-    return result ? ' ' + result : ''
+    const result = Object.keys(this.props)
+    if (result.length > 0) {
+      return (
+        ' ' +
+        result
+          .map(key => {
+            const realKey = /[A-Z]/.test(key) ? key.replace(/([A-Z])/g, '-$1') : key
+            if (this.props[key]?.type === Node.PropType.String) {
+              return `${realKey}="${this.props[key]?.value}"`
+            } else if (this.props[key]?.type === Node.PropType.Boolean) {
+              return !this.props[key]?.value ? realKey : `:${realKey}="${this.props[key]?.value || false}"`
+            } else if (this.props[key]?.type === Node.PropType.Expression) {
+              return `:${realKey}="${this.props[key]?.value}"`
+            } else {
+              throw new Error(`
+                Invalid Prop Type. Node infomation below:\n
+                tagName: ${this.tagName}\n
+                props: ${JSON.stringify(this.props)}\n
+                errorProp: key: ${JSON.stringify(this.props[key])}
+              `)
+            }
+          })
+          .join(' ')
+      )
+    } else {
+      return ''
+    }
   }
   private makeChildrenStr(): string {
-    return this.children.reduce<string>((all: string, cur: VNode | string) => {
+    return this.children.reduce<string>((all: string, cur: Node.Impl | string) => {
       if (typeof cur === 'string') {
         return all + cur
       } else {
@@ -42,28 +65,24 @@ export class VNode {
       return formatByPrettier(result)
     }
   }
-  public insertChild(child: VNode | VNode[] | string, pos?: number): VNode {
-    if (pos) {
-      if (Array.isArray(child)) {
-        this.children.splice(pos, 0, ...child)
-      } else {
-        this.children.splice(pos, 0, child)
-      }
+  public insertChild(child: Node.Impl | Node.Impl[] | string | string[] | Array<Node.Impl | string>): this {
+    if (Array.isArray(child)) {
+      this.children.push(...child)
     } else {
-      if (Array.isArray(child)) {
-        this.children.push(...child)
-      } else {
-        this.children.push(child)
-      }
+      this.children.push(child)
     }
     return this
   }
-  public removeChild(pos: number): VNode {
+  public removeChild(pos: number): this {
     this.children.splice(pos, 1)
     return this
   }
 }
 
-export function createElement(tag: string, options?: VNodeOptions): VNode {
-  return new VNode(tag, options)
+export function createNode(
+  tag: string,
+  props?: Dictionary<Node.Prop>,
+  vnode: Node.Constructor<VNode> = VNode
+): Node.Impl<VNode> {
+  return new vnode(tag, props)
 }

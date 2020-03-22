@@ -1,36 +1,19 @@
-import { ButtonSchema, FormItemSchema, OptionsSchema } from './types'
-import { createElement, VNode } from './VNode'
+import { Node, SourceConfig } from './types'
+import { createNode, VNode } from './VNode'
 
-function formItemParser(formItem: FormItemSchema): VNode {
-  const prop = formItem.prop || {}
-  return createElement(formItem.tag, { prop })
-}
-function buttonParser(button: ButtonSchema): VNode {
-  const prop = {
-    size: button.size,
-    type: button.type
+export default function parser(source: SourceConfig): string {
+  const makeNodeTree = (node: Node.Config): VNode | string => {
+    if (typeof node === 'string') {
+      return node
+    } else {
+      const current = createNode(node.tag, node.props)
+      if (node.children?.length) {
+        current.insertChild(node.children.map(c => makeNodeTree(c)))
+      }
+      return current
+    }
   }
-  return createElement('el-button', { prop })
-}
-
-export default function parser(source: string): string {
-  const root = createElement('template')
-  const form = createElement('el-form')
-  root.insertChild(form)
-  let sourceObj: OptionsSchema
-  try {
-    sourceObj = JSON.parse(source)
-  } catch (e) {
-    throw new Error('invalid source json')
-  }
-  if (sourceObj) {
-    Object.keys(sourceObj).map(key => {
-      const formItem = createElement('el-form-item')
-      const formItemNodes = sourceObj[key].formItem.map(item => formItemParser(item))
-      formItem.insertChild(formItemNodes)
-      const buttonNodes = sourceObj[key].buttons.map(button => buttonParser(button))
-      form.insertChild(formItem).insertChild(buttonNodes)
-    })
-  }
-  return root.toString()
+  return Object.keys(source)
+    .reduce((root, key) => root.insertChild(source[key].map(config => makeNodeTree(config))), createNode('template'))
+    .toString()
 }

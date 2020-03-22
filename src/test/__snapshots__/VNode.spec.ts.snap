@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VNode remove node correctly 1`] = `
+"<template><div2 /></template>
+"
+`;
+
+exports[`VNode return correct nested string 1`] = `
+"<template><div /></template>
+"
+`;
