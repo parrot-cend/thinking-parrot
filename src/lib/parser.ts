@@ -1,7 +1,9 @@
 import { Node, SourceConfig } from './types'
 import { createNode, VNode } from './VNode'
 
-export default function parser(source: SourceConfig): string {
+type TemplateCode = string
+
+export default function parser(source: SourceConfig): TemplateCode {
   const makeNodeTree = (node: Node.Config): VNode | string => {
     if (typeof node === 'string') {
       return node
@@ -13,7 +15,7 @@ export default function parser(source: SourceConfig): string {
       return current
     }
   }
-  return Object.keys(source)
-    .reduce((root, key) => root.insertChild(source[key].map(config => makeNodeTree(config))), createNode('template'))
+  return Object.values(source)
+    .reduce((r, conf) => r.insertChild(conf.map(childConf => makeNodeTree(childConf))), createNode('template'))
     .toString()
 }

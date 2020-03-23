@@ -24,6 +24,9 @@ export namespace Node {
     new (tag: string, props?: Dictionary<Prop>): Impl<T>
   }
   export interface Base {
+    tagName: string
+    props: Partial<Dictionary<Prop>>
+    children: Array<Impl | string>
     toString(inline?: boolean): string
     insertChild(child: Impl | Impl[] | string, pos?: number): this
     removeChild(pos: number): this

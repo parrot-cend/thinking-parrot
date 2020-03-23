@@ -7,9 +7,9 @@ export interface VNodeOptions {
 }
 
 export class VNode implements Node.Base {
-  private tagName: string = ''
-  private props: Partial<Dictionary<Node.Prop>>
-  private children: Array<Node.Impl | string> = []
+  public tagName: string = ''
+  public props: Partial<Dictionary<Node.Prop>>
+  public children: Array<Node.Impl | string> = []
 
   constructor(tag: string, props?: Dictionary<Node.Prop>) {
     this.tagName = tag

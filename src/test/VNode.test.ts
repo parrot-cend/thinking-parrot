@@ -4,6 +4,13 @@ describe('VNode', () => {
   it('return VNode instance', () => {
     expect(createNode('')).toBeInstanceOf(VNode)
   })
+  it('return correct VNode', () => {
+    const tagName = 'test'
+    const props = { test: { type: 'string', value: '' } }
+    const node = createNode(tagName, props)
+    expect(node.tagName).toEqual(tagName)
+    expect(node.props).toEqual(props)
+  })
   it('return correct nested string', () => {
     const node = createNode('template')
     node.insertChild(createNode('div'))
