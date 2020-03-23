@@ -10,5 +10,7 @@ app.use(mdr.bodyParser)
 applyRouter(app)
 app.use(mdr.logger)
 
-app.listen(PORT)
+const server = app.listen(PORT)
 console.log(`Server listening in port:${PORT}`)
+
+export default server

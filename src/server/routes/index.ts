@@ -1,11 +1,11 @@
 import Koa, { Context, Next } from 'koa'
-import * as template from './template'
+import * as config from './config'
 
 const routes = [
   {
     method: 'POST',
-    path: 'template',
-    fn: template.get
+    path: 'config',
+    fn: config.post
   }
 ]
 
