@@ -1,13 +1,13 @@
 import Koa from 'koa'
 import * as mdr from './middleware'
-import applyRouter from './routes'
+import router from './routes'
 
 const app = new Koa()
 const PORT = 3000
 
 app.use(mdr.timer)
 app.use(mdr.bodyParser)
-applyRouter(app)
+app.use(router)
 app.use(mdr.logger)
 
 const server = app.listen(PORT)
