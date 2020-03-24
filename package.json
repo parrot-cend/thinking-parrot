@@ -4,7 +4,7 @@
   "description": "Tools for compile json structure to .vue file",
   "main": "src/index.ts",
   "scripts": {
-    "server": "ts-node -r tsconfig-paths/register src/server/index.ts",
+    "server": "ts-node -r tsconfig-paths/register -r tsconfig-paths/register src/server/index.ts",
     "test:lib": "jest"
   },
   "dependencies": {

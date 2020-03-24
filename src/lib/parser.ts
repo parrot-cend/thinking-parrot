@@ -4,18 +4,21 @@ import { createNode, VNode } from './VNode'
 type TemplateCode = string
 
 export default function parser(source: SourceConfig): TemplateCode {
-  const makeNodeTree = (node: Node.Config): VNode | string => {
-    if (typeof node === 'string') {
-      return node
+  const makeNodeTree = (conf: Node.Config): VNode | string => {
+    if (typeof conf === 'string') {
+      return conf
     } else {
-      const current = createNode(node.tag, node.props)
-      if (node.children?.length) {
-        current.insertChild(node.children.map(c => makeNodeTree(c)))
+      const node = createNode(conf.tag, conf.props)
+      if (conf.children?.length) {
+        node.insertChild(conf.children.map((c: Node.Config) => makeNodeTree(c)))
       }
-      return current
+      return node
     }
   }
   return Object.values(source)
-    .reduce((r, conf) => r.insertChild(conf.map(childConf => makeNodeTree(childConf))), createNode('template'))
+    .reduce(
+      (r: VNode, confArr: Node.Config[]) => r.insertChild(confArr.map((conf: Node.Config) => makeNodeTree(conf))),
+      createNode('template')
+    )
     .toString()
 }
