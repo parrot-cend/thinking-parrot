@@ -6,10 +6,10 @@ export interface VNodeOptions {
   children?: Array<VNode | string>
 }
 
-export class VNode implements Node.Base {
+export class VNode {
   public tagName: string = ''
   public props: Partial<Dictionary<Node.Prop>>
-  public children: Array<Node.Impl | string> = []
+  public children: Array<VNode | string> = []
 
   constructor(tag: string, props?: Dictionary<Node.Prop>) {
     this.tagName = tag
@@ -49,7 +49,7 @@ export class VNode implements Node.Base {
     }
   }
   private makeChildrenStr(): string {
-    return this.children.reduce<string>((all: string, cur: Node.Impl | string) => {
+    return this.children.reduce<string>((all: string, cur: VNode | string) => {
       if (typeof cur === 'string') {
         return all + cur
       } else {
@@ -65,7 +65,7 @@ export class VNode implements Node.Base {
       return formatByPrettier(result)
     }
   }
-  public insertChild(child: Node.Impl | Node.Impl[] | string | string[] | Array<Node.Impl | string>): this {
+  public insertChild(child: VNode | VNode[] | string | string[] | Array<VNode | string>): this {
     if (Array.isArray(child)) {
       this.children.push(...child)
     } else {
@@ -79,10 +79,6 @@ export class VNode implements Node.Base {
   }
 }
 
-export function createNode(
-  tag: string,
-  props?: Dictionary<Node.Prop>,
-  vnode: Node.Constructor<VNode> = VNode
-): Node.Impl<VNode> {
-  return new vnode(tag, props)
+export function createNode(tag: string, props?: Dictionary<Node.Prop>): VNode {
+  return new VNode(tag, props)
 }
