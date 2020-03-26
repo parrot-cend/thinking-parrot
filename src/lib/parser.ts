@@ -18,7 +18,7 @@ export default function parser(source: SourceConfig): TemplateCode {
   return Object.values(source)
     .reduce(
       (r: VNode, confArr: Node.Config[]) => r.insertChild(confArr.map((conf: Node.Config) => makeNodeTree(conf))),
-      createNode('template')
+      createNode('div', { id: { type: Node.PropType.String, value: 'preview' } })
     )
     .toString()
 }
