@@ -7,7 +7,7 @@ const routes: Dictionary = {
   '/config': {
     POST: config.post
   },
-  '/node': {
+  '/node-utils': {
     GET: nodeUtils.get
   }
 }
