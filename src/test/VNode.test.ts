@@ -1,3 +1,4 @@
+import { Node } from '../lib/types'
 import { createNode, VNode } from '../lib/VNode'
 
 describe('VNode', () => {
@@ -6,10 +7,10 @@ describe('VNode', () => {
   })
   it('return correct VNode', () => {
     const tagName = 'test'
-    const props = { test: { type: 'string', value: '' } }
+    const props: Node.Prop = { key: 'test', type: Node.PropType.String, value: '' }
     const node = createNode(tagName, props)
     expect(node.tagName).toEqual(tagName)
-    expect(node.props).toEqual(props)
+    expect(node.props).toEqual([props])
   })
   it('return correct nested string', () => {
     const node = createNode('template')

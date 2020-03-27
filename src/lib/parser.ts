@@ -15,10 +15,14 @@ export default function parser(source: SourceConfig): TemplateCode {
       return node
     }
   }
-  return Object.values(source)
-    .reduce(
-      (r: VNode, confArr: Node.Config[]) => r.insertChild(confArr.map((conf: Node.Config) => makeNodeTree(conf))),
-      createNode('div', { id: { type: Node.PropType.String, value: 'preview' } })
-    )
-    .toString()
+  return source
+    .map((conf: Node.Config) => makeNodeTree(conf))
+    .map((node: VNode | string) => {
+      if (typeof node === 'string') {
+        return node
+      } else {
+        return node.toString()
+      }
+    })
+    .join('\n')
 }

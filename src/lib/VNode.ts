@@ -8,37 +8,40 @@ export interface VNodeOptions {
 
 export class VNode {
   public tagName: string = ''
-  public props: Partial<Dictionary<Node.Prop>>
+  public props: Array<Node.Prop>
   public children: Array<VNode | string> = []
 
-  constructor(tag: string, props?: Dictionary<Node.Prop>) {
+  constructor(tag: string, props?: Array<Node.Prop> | Node.Prop) {
     this.tagName = tag
-    this.props = props || {}
+    if (props) {
+      this.props = Array.isArray(props) ? props : [props]
+    } else {
+      this.props = []
+    }
     return this
   }
   private makeTagStr(prop?: string, children?: string): string {
-    return children ? `<${this.tagName}${prop}>${children}</${this.tagName}>` : `<${this.tagName}${prop} />`
+    return children?.length ? `<${this.tagName}${prop}>${children}</${this.tagName}>` : `<${this.tagName}${prop} />`
   }
   private makePropStr(): string {
-    const result = Object.keys(this.props)
-    if (result.length > 0) {
+    if (this.props.length > 0) {
       return (
         ' ' +
-        result
-          .map(key => {
-            const realKey = /[A-Z]/.test(key) ? key.replace(/([A-Z])/g, '-$1') : key
-            if (this.props[key]?.type === Node.PropType.String) {
-              return `${realKey}="${this.props[key]?.value}"`
-            } else if (this.props[key]?.type === Node.PropType.Boolean) {
-              return !this.props[key]?.value ? realKey : `:${realKey}="${this.props[key]?.value || false}"`
-            } else if (this.props[key]?.type === Node.PropType.Expression) {
-              return `:${realKey}="${this.props[key]?.value}"`
+        this.props
+          .map(prop => {
+            const realKey = /[a-z][A-Z]/.test(prop.key) ? prop.key.replace(/([A-Z])/g, '-$1').toLowerCase() : prop.key
+            if (prop.type === Node.PropType.String) {
+              return `${realKey}="${prop.value}"`
+            } else if (prop.type === Node.PropType.Boolean) {
+              return !prop.value ? realKey : `:${realKey}="${prop.value || false}"`
+            } else if (prop.type === Node.PropType.Expression) {
+              return `:${realKey}="${prop.value}"`
             } else {
               throw new Error(`
                 Invalid Prop Type. Node infomation below:\n
                 tagName: ${this.tagName}\n
                 props: ${JSON.stringify(this.props)}\n
-                errorProp: key: ${JSON.stringify(this.props[key])}
+                errorProp: key: ${JSON.stringify(this.props)}
               `)
             }
           })
@@ -79,6 +82,6 @@ export class VNode {
   }
 }
 
-export function createNode(tag: string, props?: Dictionary<Node.Prop>): VNode {
+export function createNode(tag: string, props?: Array<Node.Prop> | Node.Prop): VNode {
   return new VNode(tag, props)
 }
