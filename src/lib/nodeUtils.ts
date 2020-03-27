@@ -13,11 +13,15 @@ export class Config {
     this.props.push(prop)
     return this
   }
-  public deleteProp(keyOrIdx: string | number): this {
-    if (typeof keyOrIdx === 'string') {
-      const key: string = keyOrIdx
-      const idx = this.props.findIndex(prop => prop.key === key)
-      this.props.splice(idx, 1)
+  public deleteProp(key: string): this {
+    const idx = this.props.findIndex(prop => prop.key === key)
+    this.props.splice(idx, 1)
+    return this
+  }
+  public updateProp(key: string, value: string): this {
+    const target = this.props.find(prop => prop.key === key)
+    if (target) {
+      target.value = value
     }
     return this
   }

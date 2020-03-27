@@ -12,6 +12,8 @@ export enum FormItemNodeType {
   Form = 'form',
   FormItem = 'form-item',
   Input = 'input',
+  Select = 'select',
+  Option = 'option',
   Button = 'button'
 }
 
