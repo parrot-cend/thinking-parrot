@@ -4,7 +4,6 @@ exports[`Parser test generate correct template string 1`] = `
 "<el-form inline label-width=\\"100px\\">
   <el-form-item required label=\\"\\">
     <el-input type=\\"text\\" :bind=\\"text\\" type=\\"text\\" clearable />
-    text
   </el-form-item>
 </el-form>
 

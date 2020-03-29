@@ -3,13 +3,13 @@ import { Dictionary, Node } from './types'
 
 export interface VNodeOptions {
   props?: Dictionary<Node.Prop>
-  children?: Array<VNode | string>
+  children?: Array<VNode>
 }
 
 export class VNode {
   public tagName: string = ''
   public props: Array<Node.Prop>
-  public children: Array<VNode | string> = []
+  public children: Array<VNode> = []
 
   constructor(tag: string, props?: Array<Node.Prop> | Node.Prop) {
     this.tagName = tag
@@ -52,7 +52,7 @@ export class VNode {
     }
   }
   private makeChildrenStr(): string {
-    return this.children.reduce<string>((all: string, cur: VNode | string) => {
+    return this.children.reduce<string>((all: string, cur: VNode) => {
       if (typeof cur === 'string') {
         return all + cur
       } else {
@@ -68,7 +68,7 @@ export class VNode {
       return formatByPrettier(result)
     }
   }
-  public insertChild(child: VNode | VNode[] | string | string[] | Array<VNode | string>): this {
+  public insertChild(child: VNode | Array<VNode>): this {
     if (Array.isArray(child)) {
       this.children.push(...child)
     } else {

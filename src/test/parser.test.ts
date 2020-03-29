@@ -27,8 +27,7 @@ describe('Parser test', () => {
                   { key: 'clearable', type: 'boolean', value: '' }
                 ],
                 children: []
-              },
-              'text'
+              }
             ]
           }
         ]
