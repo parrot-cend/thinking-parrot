@@ -5,7 +5,6 @@
   "main": "src/index.ts",
   "scripts": {
     "server": "ts-node -r tsconfig-paths/register src/server/index.ts",
-    "server:update": "ts-node -r tsconfig-paths/register src/server/index.ts --update",
     "test:lib": "jest"
   },
   "dependencies": {
